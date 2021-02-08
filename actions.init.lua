@@ -63,7 +63,7 @@ if not aura_env.f then
     local x, y
     local pos = C_Map.GetPlayerMapPosition(1819,"player")
     for i, v in pairs(t) do
-      if f.ids[i] then
+      if f.ids[i] and pos then
         local tDist = ((v[1] - pos.x) ^ 2 + (v[2] - pos.y) ^ 2) ^ 0.5
         f.ids[i].dist = tDist
       end
@@ -82,7 +82,7 @@ if not aura_env.f then
 
     for i, v in pairs(t) do
       if f.ids[i] then
-        local nameString = f.ids[i].name .. "\n" .. string.format("%.2f", f.ids[i].dist * 10)
+        local nameString = f.ids[i].name
         if i == sDI then
           nameString = "|cFF00FF00" .. nameString .. "|r"
           f.ids[i]:SetText(nameString)
