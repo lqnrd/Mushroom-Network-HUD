@@ -47,7 +47,6 @@ if not aura_env.f then
         f.ids[i].name = name
         f.ids[i]:SetText(f.ids[i].name or "???")
       end
-
     end
   end
   f.p = f:CreateFontString(nil, "BACKGROUND", "GameFontNormal")
@@ -62,19 +61,14 @@ if not aura_env.f then
     local c = cos(-angle/(2*PI)*360)
     local x, y
     local pos = C_Map.GetPlayerMapPosition(1819,"player")
+    local low = math.huge
+    local sDI
     for i, v in pairs(t) do
       if f.ids[i] and pos then
         local tDist = ((v[1] - pos.x) ^ 2 + (v[2] - pos.y) ^ 2) ^ 0.5
         f.ids[i].dist = tDist
-      end
-    end
-    local low = math.huge
-    local sDI
-    for i, v in pairs(t) do
-      if f.ids[i] then
-        local comp = f.ids[i].dist
-        if comp < low then
-          low = comp
+        if tDist < low then
+          low = tDist
           sDI = i
         end
       end
@@ -85,7 +79,6 @@ if not aura_env.f then
         local nameString = f.ids[i].name
         if i == sDI then
           nameString = "|cFF00FF00" .. nameString .. "|r"
-          f.ids[i]:SetText(nameString)
         end
         f.ids[i]:SetText(nameString)
         x, y = scaleX*(v[1]*self.size-self.size/2), -(v[2]*self.size-self.size/2)
@@ -99,7 +92,7 @@ if not aura_env.f then
   end
   f:UpdatePositions(GetPlayerFacing() or 0)
   f:SetScript("OnUpdate", function(self)
-      self:UpdatePositions(GetPlayerFacing() or 0)
+    self:UpdatePositions(GetPlayerFacing() or 0)
   end)
 end
 aura_env.f:UpdateSize()
