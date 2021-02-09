@@ -7,6 +7,7 @@ if not aura_env.f then
   end
   local f = CreateFrame("Frame","TheRingFrame",aura_env.region)
   aura_env.f = f
+  f.aura_env = aura_env
   f:SetPoint("CENTER")
   f:SetSize(10,10)
   local t = {
@@ -24,21 +25,26 @@ if not aura_env.f then
     [325614] = {0.5635, 0.3744, 1565, 6941}, -- Stillglade
   }
   f.ids = {}
-  for i, v in pairs(t) do
-    local poiInfo, name = v[3] and v[4] and C_AreaPoiInfo.GetAreaPOIInfo(v[3], v[4])
-    if poiInfo then
-      f.ids[i] = f:CreateFontString(nil, "BACKGROUND", "GameFontNormal")
-      f.ids[i].dist = 0
-      f.ids[i].name = ""
-      f.ids[i]:SetTextColor(1, 1, 1, 1)
+  function f:CreatePortalStrings()
+    for i, v in pairs(t) do
+      if not f.ids[i] then
+        local poiInfo, name = v[3] and v[4] and C_AreaPoiInfo.GetAreaPOIInfo(v[3], v[4])
+        if poiInfo then
+          f.ids[i] = f:CreateFontString(nil, "BACKGROUND", "GameFontNormal")
+          f.ids[i].dist = 0
+          f.ids[i].name = ""
+          f.ids[i]:SetTextColor(1, 1, 1, 1)
+        end
+      end
     end
   end
+  f:CreatePortalStrings()
   function f:UpdatePortalNames()
     for i, v in pairs(t) do
       if f.ids[i] then
         local poiInfo, name = v[3] and v[4] and C_AreaPoiInfo.GetAreaPOIInfo(v[3], v[4])
-        if aura_env.config[tostring(i)] and (aura_env.config[tostring(i)] ~= "") then
-          name = aura_env.config[tostring(i)]
+        if self.aura_env.config[tostring(i)] and (self.aura_env.config[tostring(i)] ~= "") then
+          name = self.aura_env.config[tostring(i)]
         elseif poiInfo then
           name = poiInfo.name
         else
@@ -49,11 +55,16 @@ if not aura_env.f then
       end
     end
   end
+  f:RegisterEvent("AREA_POIS_UPDATED")
+  f:SetScript("OnEvent", function(self)
+    self:CreatePortalStrings()
+    self:UpdatePortalNames()
+  end)
   f.p = f:CreateFontString(nil, "BACKGROUND", "GameFontNormal")
   f.p:SetText("X")
   f.p:SetTextColor(1, 0, 0, 1)
   function f:UpdateSize()
-    self.size = aura_env.config["size"] and tonumber(aura_env.config["size"]) or 1000
+    self.size = self.aura_env.config["size"] and tonumber(self.aura_env.config["size"]) or 1000
   end
   f:UpdateSize()
   function f:UpdatePositions(angle)
