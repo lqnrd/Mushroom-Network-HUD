@@ -31,6 +31,7 @@ if not aura_env.f then
         local poiInfo, name = v[3] and v[4] and C_AreaPoiInfo.GetAreaPOIInfo(v[3], v[4])
         if poiInfo then
           f.ids[i] = f:CreateFontString(nil, "BACKGROUND", "GameFontNormal")
+          f.ids[i]:SetFont(aura_env.region.text:GetFont())
           f.ids[i].dist = 0
           f.ids[i].name = ""
           f.ids[i]:SetTextColor(1, 1, 1, 1)
@@ -61,6 +62,7 @@ if not aura_env.f then
     self:UpdatePortalNames()
   end)
   f.p = f:CreateFontString(nil, "BACKGROUND", "GameFontNormal")
+  f.p:SetFont(aura_env.region.text:GetFont())
   f.p:SetText("X")
   f.p:SetTextColor(1, 0, 0, 1)
   function f:UpdateSize()
