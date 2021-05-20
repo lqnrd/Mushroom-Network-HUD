@@ -31,7 +31,7 @@ if not aura_env.f then
         local poiInfo, name = v[3] and v[4] and C_AreaPoiInfo.GetAreaPOIInfo(v[3], v[4])
         if poiInfo then
           f.ids[i] = f:CreateFontString(nil, "BACKGROUND", "GameFontNormal")
-          f.ids[i]:SetFont(aura_env.region.text:GetFont())
+          f.ids[i]:SetFont(self.aura_env.region.text:GetFont())
           f.ids[i].dist = 0
           f.ids[i].name = ""
           f.ids[i]:SetTextColor(1, 1, 1, 1)
