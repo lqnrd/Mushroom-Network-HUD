@@ -23,12 +23,13 @@ if not aura_env.f then
     [325660] = {0.6022, 0.5285, 1819, 6972}, -- Deep Unknown
     [325619] = {0.5895, 0.4336, 1565, 6947}, -- Tirna Scithe
     [325614] = {0.5635, 0.3744, 1565, 6941}, -- Stillglade
+    [355204] = {0.5513, 0.5293, true}, -- Maw, always available from upgrade level 1
   }
   f.ids = {}
   function f:CreatePortalStrings()
     for i, v in pairs(t) do
       if not f.ids[i] then
-        local poiInfo, name = v[3] and v[4] and C_AreaPoiInfo.GetAreaPOIInfo(v[3], v[4])
+        local poiInfo, name = v[3] and v[4] and C_AreaPoiInfo.GetAreaPOIInfo(v[3], v[4]) or v[3]
         if poiInfo then
           f.ids[i] = f:CreateFontString(nil, "BACKGROUND", "GameFontNormal")
           f.ids[i]:SetFont(self.aura_env.region.text:GetFont())
