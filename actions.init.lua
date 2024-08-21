@@ -50,7 +50,7 @@ if not aura_env.f then
         elseif poiInfo then
           name = poiInfo.name
         else
-          name = GetSpellInfo(i)
+          name = C_Spell.GetSpellName(i)
         end
         f.ids[i].name = name
         f.ids[i]:SetText(f.ids[i].name or "???")
